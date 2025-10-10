@@ -1,199 +1,160 @@
-// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
+/**
+ * Class Name - MyString
+ * Description - Implements various string manipulation methods such as append, replace, palindrome check,
+ * splitting, sorting, reversing, etc.
+ * 
+ * -------------------- Author - Nandani Rathore ---------------------
+ */
+
 public class MyString {
-   private String value;
+    private String value;
 
-   public MyString(String var1) {
-      this.value = var1;
-   }
+    // Constructor with parameter
+    public MyString(String str) {
+        this.value = str;
+    }
 
-   public MyString() {
-      this.value = "";
-   }
+    // Default constructor
+    public MyString() {
+        this.value = "";
+    }
 
-   public String append(String var1) {
-      this.value = this.value + var1;
-      return this.value;
-   }
+    // Append another string to the current value
+    public String append(String str) {
+        this.value = this.value + str;
+        return this.value;
+    }
 
-   public static int countfun(String var0) {
-      int var1 = 0;
-      int var2 = 0;
+    // Count words in a string (based on spaces)
+    public static int countWords(String input) {
+        int count = 0;
+        int start = 0;
+        int end = input.length() - 1;
 
-      int var3;
-      for(var3 = var0.length() - 1; var2 <= var3 && var0.charAt(var2) == ' '; ++var2) {
-      }
+        // Trim leading spaces
+        while (start <= end && input.charAt(start) == ' ') start++;
 
-      while(var3 >= var2 && var0.charAt(var3) == ' ') {
-         --var3;
-      }
+        // Trim trailing spaces
+        while (end >= start && input.charAt(end) == ' ') end--;
 
-      for(int var4 = var2; var4 <= var3; ++var4) {
-         if (var0.charAt(var4) == ' ') {
-            ++var1;
-
-            while(var4 <= var3 && var0.charAt(var4) == ' ') {
-               ++var4;
+        // Count spaces between words
+        for (int i = start; i <= end; i++) {
+            if (input.charAt(i) == ' ') {
+                count++;
+                while (i <= end && input.charAt(i) == ' ') i++;
             }
-         }
-      }
+        }
 
-      return var1 + 1;
-   }
+        return count + 1; // number of words = spaces + 1
+    }
 
-   public String Myreplace(char var1, char var2) {
-      String var3 = "";
+    // Replace character ch1 with ch2
+    public String replaceChar(char ch1, char ch2) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < this.value.length(); i++) {
+            char current = this.value.charAt(i);
+            result.append(current == ch1 ? ch2 : current);
+        }
+        this.value = result.toString();
+        return this.value;
+    }
 
-      for(int var4 = 0; var4 < this.value.length(); ++var4) {
-         char var5 = this.value.charAt(var4);
-         if (var5 == var1) {
-            var3 = var3 + var2;
-         } else {
-            var3 = var3 + var5;
-         }
-      }
+    // Check if a string is palindrome
+    public static boolean isPalindrome(String str) {
+        int left = 0, right = str.length() - 1;
+        while (left <= right) {
+            if (str.charAt(left) != str.charAt(right)) return false;
+            left++;
+            right--;
+        }
+        return true;
+    }
 
-      this.value = var3;
-      return this.value;
-   }
+    // Remove 'length' characters starting from index 'start'
+    public static void splice(String str, int start, int length) {
+        char[] result = new char[str.length() - length];
+        int index = 0;
 
-   public static boolean Pallindrom(String var0) {
-      int var1 = 0;
-
-      for(int var2 = var0.length() - 1; var1 <= var2; --var2) {
-         if (var0.charAt(var1) != var0.charAt(var2)) {
-            return false;
-         }
-
-         ++var1;
-      }
-
-      return true;
-   }
-
-   public static void splice(String var0, int var1, int var2) {
-      char[] var3 = new char[var0.length() - var2];
-      int var4 = 0;
-
-      int var5;
-      for(var5 = 0; var5 < var0.length(); ++var5) {
-         if (var5 < var1 || var5 >= var1 + var2) {
-            var3[var4] = var0.charAt(var5);
-            ++var4;
-         }
-      }
-
-      for(var5 = 0; var5 < var3.length; ++var5) {
-         System.out.print(var3[var5]);
-      }
-
-      System.out.println();
-   }
-
-   public static void split(String var0, char var1) {
-      int var2 = 0;
-
-      int var3;
-      for(var3 = 0; var3 < var0.length(); ++var3) {
-         if (var0.charAt(var3) == var1) {
-            for(int var4 = var2; var4 < var3; ++var4) {
-               System.out.print(var0.charAt(var4));
+        for (int i = 0; i < str.length(); i++) {
+            if (i < start || i >= start + length) {
+                result[index++] = str.charAt(i);
             }
+        }
 
-            System.out.println();
-            var2 = var3 + 1;
-         }
-      }
+        for (char c : result) System.out.print(c);
+        System.out.println();
+    }
 
-      for(var3 = var2; var3 < var0.length(); ++var3) {
-         System.out.print(var0.charAt(var3));
-      }
-
-      System.out.println();
-   }
-
-   public static void maxRepeat(String var0) {
-      char var1 = var0.charAt(0);
-      int var2 = 0;
-
-      for(int var3 = 0; var3 < var0.length(); ++var3) {
-         int var4 = 0;
-
-         for(int var5 = 0; var5 < var0.length(); ++var5) {
-            if (var0.charAt(var3) == var0.charAt(var5)) {
-               ++var4;
+    // Split the string based on a delimiter character
+    public static void split(String str, char delimiter) {
+        int start = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == delimiter) {
+                for (int j = start; j < i; j++) System.out.print(str.charAt(j));
+                System.out.println();
+                start = i + 1;
             }
-         }
+        }
 
-         if (var4 > var2) {
-            var2 = var4;
-            var1 = var0.charAt(var3);
-         }
-      }
+        for (int i = start; i < str.length(); i++) System.out.print(str.charAt(i));
+        System.out.println();
+    }
 
-      System.out.println("Max repeating character: '" + var1 + "' -> " + var2);
-   }
+    // Find the maximum repeating character in a string
+    public static void maxRepeat(String str) {
+        char maxChar = str.charAt(0);
+        int maxCount = 0;
 
-   public static void sort(String var0) {
-      char[] var1 = new char[var0.length()];
-
-      int var2;
-      for(var2 = 0; var2 < var0.length(); ++var2) {
-         var1[var2] = var0.charAt(var2);
-      }
-
-      for(var2 = 0; var2 < var1.length - 1; ++var2) {
-         for(int var3 = var2 + 1; var3 < var1.length; ++var3) {
-            if (var1[var2] > var1[var3]) {
-               char var4 = var1[var2];
-               var1[var2] = var1[var3];
-               var1[var3] = var4;
+        for (int i = 0; i < str.length(); i++) {
+            int count = 0;
+            for (int j = 0; j < str.length(); j++) {
+                if (str.charAt(i) == str.charAt(j)) count++;
             }
-         }
-      }
+            if (count > maxCount) {
+                maxCount = count;
+                maxChar = str.charAt(i);
+            }
+        }
 
-      for(var2 = 0; var2 < var1.length; ++var2) {
-         System.out.print(var1[var2]);
-      }
+        System.out.println("Max repeating character: '" + maxChar + "' -> " + maxCount);
+    }
 
-      System.out.println();
-   }
+    // Sort characters of a string alphabetically
+    public static void sort(String str) {
+        char[] arr = str.toCharArray();
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] > arr[j]) {
+                    char temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
 
-   public static void shift(String var0, int var1) {
-      char[] var2 = new char[var0.length()];
-      int var3 = 0;
+        for (char c : arr) System.out.print(c);
+        System.out.println();
+    }
 
-      int var4;
-      for(var4 = var1; var4 < var0.length(); ++var4) {
-         var2[var3] = var0.charAt(var4);
-         ++var3;
-      }
+    // Circularly shift string characters by n positions
+    public static void shift(String str, int n) {
+        char[] shifted = new char[str.length()];
+        int index = 0;
 
-      for(var4 = 0; var4 < var1; ++var4) {
-         var2[var3] = var0.charAt(var4);
-         ++var3;
-      }
+        // Move substring from n to end to start
+        for (int i = n; i < str.length(); i++) shifted[index++] = str.charAt(i);
+        // Move first n chars to the end
+        for (int i = 0; i < n; i++) shifted[index++] = str.charAt(i);
 
-      for(var4 = 0; var4 < var2.length; ++var4) {
-         System.out.print(var2[var4]);
-      }
+        for (char c : shifted) System.out.print(c);
+        System.out.println();
+    }
 
-      System.out.println();
-   }
-
-   public static void reverse(String var0) {
-      char[] var1 = new char[var0.length()];
-      int var2 = 0;
-
-      int var3;
-      for(var3 = var0.length() - 1; var3 >= 0; --var3) {
-         var1[var2] = var0.charAt(var3);
-         ++var2;
-      }
-
-      for(var3 = 0; var3 < var1.length; ++var3) {
-         System.out.print(var1[var3]);
-      }
-
-      System.out.println();
-   }
+    // Reverse a string
+    public static void reverse(String str) {
+        for (int i = str.length() - 1; i >= 0; i--) {
+            System.out.print(str.charAt(i));
+        }
+        System.out.println();
+    }
 }
